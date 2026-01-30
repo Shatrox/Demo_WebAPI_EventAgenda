@@ -15,6 +15,9 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database
         public DbSet<AgendaEvent> AgendaEvents { get; set; }
         public DbSet<EventCategory> EventCategories { get; set; }
 
+        // Ctor Definition - Used for dependency injection
+        public AppDbContext(DbContextOptions options) : base(options){ }
+
 
         //Apply the configurations defined in separate classes
         protected override void OnModelCreating(ModelBuilder modelBuilder)

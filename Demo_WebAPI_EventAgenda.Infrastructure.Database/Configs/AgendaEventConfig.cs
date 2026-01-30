@@ -28,6 +28,11 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Configs
                 .IsUnicode() // NVARCHAR
                 .IsRequired();
 
+            builder.Property(ae => ae.Desc)
+                .HasMaxLength(2_000)
+                .IsUnicode() // NVARCHAR
+                .IsRequired(false);
+
             builder.Property(ae => ae.Location)
                 .HasMaxLength(100)
                 .IsUnicode() // NVARCHAR
@@ -42,9 +47,6 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Configs
                 .IsRequired (false)
                 .HasColumnType("DATETIME2")
                 .HasColumnName("End Date");
-
-            builder.Property(ae => ae.Category)
-                .IsRequired(true);
 
             // Indexes
 

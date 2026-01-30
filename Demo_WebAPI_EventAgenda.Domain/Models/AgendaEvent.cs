@@ -9,6 +9,7 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
         // Proprietes
         public long Id { get; private set; }
         public string Name { get; private set; }
+        public string? Desc { get; set; }
         public string? Location { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
@@ -18,7 +19,7 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
 
         public AgendaEvent(){ }
 
-        public AgendaEvent(string name, string? location, DateTime startDate, DateTime? endDate, EventCategory category)
+        public AgendaEvent(string name, string? desc, string? location, DateTime startDate, DateTime? endDate, EventCategory category)
         {
             if (string.IsNullOrWhiteSpace(name)) 
                 throw new ArgumentNullException("Le nom de l'evenement doit contenir au moin un caractere", nameof(name));
@@ -27,6 +28,7 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
                 throw new ArgumentException("Les dates de l'evenement sont invalides");
 
             Name = name;
+            Desc = desc;
             Location = location;
             StartDate = startDate;
             EndDate = endDate;
