@@ -14,6 +14,7 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database
         //Ensemble the tables (DbSet) that will be part of the database
         public DbSet<AgendaEvent> AgendaEvents { get; set; }
         public DbSet<EventCategory> EventCategories { get; set; }
+        public DbSet<Member> Members { get; set; }
 
         // Ctor Definition - Used for dependency injection
         public AppDbContext(DbContextOptions options) : base(options){ }
