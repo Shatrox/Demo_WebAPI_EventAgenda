@@ -33,7 +33,7 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
         public string? GetPasswordHashByEmail(string email)
         { 
             return _DbContext.Members
-                .Single(m => m.Email == email)?
+                .Single(m => m.Email == email)? // this line translates word by word in: "Get the single member m where m.Email is equal to the email parameter"
                 .PasswordHash;
 
         }
