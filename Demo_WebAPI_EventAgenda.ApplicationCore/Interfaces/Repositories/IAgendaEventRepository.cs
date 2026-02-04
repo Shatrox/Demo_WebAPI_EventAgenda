@@ -11,7 +11,10 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Interfaces.Repositories
         AgendaEvent GetById(long id); // Read
         IEnumerable<AgendaEvent> GetAll(int offset, int limit); // offset = page number, limit = page size // Read range
         AgendaEvent Insert(AgendaEvent data); // Create
-        AgendaEvent Update(long id, AgendaEvent data); // Update
+        AgendaEvent Update(AgendaEvent data); // Update
         bool Delete(long id); // Delete
+        IEnumerable<AgendaEvent> GetByDate(DateTime startDate, DateTime? endDate = null); // Read by specific date
+
+
     }
 }

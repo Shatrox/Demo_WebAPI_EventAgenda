@@ -10,8 +10,9 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Services
 {
     public class AgendaEventService : IAgendaEventService
     {
-        private IAgendaEventRepository _agendaEventRepository; //
+        private IAgendaEventRepository _agendaEventRepository; 
 
+        //Dependencie injection 
         public AgendaEventService(IAgendaEventRepository agendaEventRepository)
         {
             _agendaEventRepository = agendaEventRepository;
@@ -53,22 +54,49 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Services
 
         public IEnumerable<AgendaEvent> GetAllByDate(DateTime date)
         {
-            throw new NotImplementedException();
+            return _agendaEventRepository.GetByDate(date);
+            //throw new NotImplementedException();
         }
 
         public IEnumerable<AgendaEvent> GetAllByDateRange(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
-        }
+            if (startDate <= endDate)
+            {
+                throw new ArgumentOutOfRangeException("The start date must be smaller than the end date");
+            }
 
-        public IEnumerable<AgendaEvent> GetMany(int page, int nbElement)
-        {
-            throw new NotImplementedException();
+            return _agendaEventRepository.GetByDate(startDate, endDate);
+            //throw new NotImplementedException();
         }
 
         public void UpdateDate(long id, DateTime startDate, DateTime? endDate)
         {
-            throw new NotImplementedException();
+            // Retrieve the agenda event from the repository
+            AgendaEvent? agendaEvent = _agendaEventRepository.GetById(id);
+            if (agendaEvent is null)
+            {
+                throw new AgendaNotFoundException();
+            }
+            // Modify the date of the agenda event via a method of the domain model
+            agendaEvent.ChangeDate(startDate, endDate);
+            //Repercute the update in the repository
+            _agendaEventRepository.Update(agendaEvent);
+        }
+
+        public IEnumerable<AgendaEvent> GetMany(int page, int nbElement)
+        {
+            if (page <= 0 || nbElement <= 0)
+            {
+                throw new ArgumentOutOfRangeException("The number of pages and elements most be superior to 0");
+            }
+
+
+            int offset = (page - 1) * nbElement;
+            int limit = nbElement;
+
+
+
+            return _agendaEventRepository.GetAll(offset, limit);
         }
     }
 }

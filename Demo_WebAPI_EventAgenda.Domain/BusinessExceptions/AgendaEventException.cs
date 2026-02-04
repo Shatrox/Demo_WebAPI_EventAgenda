@@ -15,7 +15,6 @@ namespace Demo_WebAPI_EventAgenda.Domain.BusinessExceptions
         public AgendaEventException(string message, AgendaEvent? data = null) 
             : base(message) 
         { 
-        
             AgendaEventData = data;
         }
 

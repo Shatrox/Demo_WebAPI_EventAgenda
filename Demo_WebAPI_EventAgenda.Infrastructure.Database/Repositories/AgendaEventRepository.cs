@@ -50,11 +50,19 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
             
         }
 
-        public AgendaEvent Update(long id, AgendaEvent data)
+        public AgendaEvent Update(AgendaEvent data)
         {
-            // Du au pattern "Domaind Driven Development", on devra code des méthodes "update" dans le model
-            throw new NotImplementedException();
+            // Permet d'ajouter dans le context
+            EntityEntry<AgendaEvent> result = _DbContext.AgendaEvents.Update(data);
+
+            // Appliquer la modification du context dans la base de donnee 
+            _DbContext.SaveChanges();
+
+            // Renvoyé l'element ajouté à jours
+            return result.Entity;
+            
         }
+
         public bool Delete(long id)
         {
             AgendaEvent? target = GetById(id);
@@ -67,6 +75,20 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
 
             return true;
 
+        }
+
+        public IEnumerable<AgendaEvent> GetByDate(DateTime startDate, DateTime? endDate = null)
+        {
+            DateTime currentDate = endDate ?? startDate;
+           
+             
+                var result = _DbContext.AgendaEvents
+                    .AsNoTracking()
+                    .Where(ae => ae.StartDate <= currentDate || ae.EndDate >= startDate)
+                    .ToList();
+
+                return result;
+            
         }
     }
 }

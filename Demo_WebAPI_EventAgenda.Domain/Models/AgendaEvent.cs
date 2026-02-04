@@ -9,7 +9,7 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
         // Proprietes
         public long Id { get; private set; }
         public string Name { get; private set; }
-        public string? Desc { get; set; }
+        public string? Desc { get; private set; }
         public string? Location { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
@@ -33,6 +33,18 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
             StartDate = startDate;
             EndDate = endDate;
             Category = category;
+        }
+
+        // Method to change the date
+        public AgendaEvent ChangeDate(DateTime startDateUpdate, DateTime? endDateUpdate)
+        {
+            if(endDateUpdate is not null && endDateUpdate < startDateUpdate)
+                throw new ArgumentException("Les dates de l'evenement sont invalides");
+
+            StartDate = startDateUpdate;
+            EndDate = endDateUpdate;
+
+            return this; // allows to chain the method call (optional)
         }
     }
 }
