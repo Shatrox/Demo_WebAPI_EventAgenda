@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Demo_WebAPI_EventAgenda.ApplicationCore.Interfaces
+namespace Demo_WebAPI_EventAgenda.ApplicationCore.Interfaces.Repositories
 {
     public interface IAgendaEventRepository
     {
