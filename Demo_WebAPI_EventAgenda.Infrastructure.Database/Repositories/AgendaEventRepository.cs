@@ -31,15 +31,31 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
                 .ToList();
         }
 
-        public AgendaEvent GetById(long id)
+        public AgendaEvent? GetById(long id)
         {
-            return _DbContext.AgendaEvents.Single(ae => ae.Id == id);
+            return _DbContext.AgendaEvents
+                .Include(ae => ae.Category)
+                .SingleOrDefault(ae => ae.Id == id);
         }
 
         public AgendaEvent Insert(AgendaEvent data)
         {
+            // Check si l'element existe déjà
+            EventCategory? categoryInDB = _DbContext.EventCategories.SingleOrDefault(c => c.Name == data.Category.Name);
+
+            // Recreer le element a ajouter en Db avec le lien vers la category si elle existe
+            AgendaEvent dataToInsert = new AgendaEvent(
+                data.Name,
+                data.Desc,
+                data.Location,
+                data.StartDate,
+                data.EndDate,
+                categoryInDB ?? data.Category // Coalesce → Si la category existe on l'utilise sinon on utilise celle de l'element a ajouter
+            );
+
+
             // Permet d'ajouter dans le context
-            EntityEntry<AgendaEvent> element = _DbContext.AgendaEvents.Add(data);
+            EntityEntry<AgendaEvent> element = _DbContext.AgendaEvents.Add(dataToInsert);
 
             // Appliquer la modification du context dans la base de donnee 
             _DbContext.SaveChanges();
@@ -84,7 +100,7 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
              
                 var result = _DbContext.AgendaEvents
                     .AsNoTracking()
-                    .Where(ae => ae.StartDate <= currentDate || ae.EndDate >= startDate)
+                    .Where(ae => ae.StartDate <= currentDate && ae.EndDate >= startDate)
                     .ToList();
 
                 return result;

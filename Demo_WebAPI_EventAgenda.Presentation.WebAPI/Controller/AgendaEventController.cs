@@ -21,7 +21,8 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
         }
 
         // Define an endpoint to get an event from the DB by id
-        [HttpGet("{:id}")]
+        [HttpGet("{id}")]
+        [ProducesResponseType<AgendaEventResponseDto>(200)]
         public IActionResult GetById([FromRoute]long id)
         {
             AgendaEvent result = _agendaEventService.GetById(id);
@@ -44,7 +45,7 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
         // Define an endpoint to add a new event to the DB
 
         [HttpPost]
-
+        [ProducesResponseType<AgendaEventResponseDto>(201)]
         public IActionResult AddElement(AgendaEventRequestDto data) 
         {
             // Transforme data "RequestDto" vers le type model (Domain)
@@ -72,12 +73,55 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
 
             return CreatedAtAction(             // Creation the response 201 "CREATED" 
                   nameof(GetById),              // → Endpoit to retrieve the data
-                  new { Id = result.Id },       // → Necessary data for the endpoint
+                  new { id = result.Id },       // → Necessary data for the endpoint
                   dto                        // → Data of the created object 
                 
                 
             );
+
+
         
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _agendaEventService.Delete(id);
+            
+            return NoContent();
+        }
+
+        [HttpGet]
+        public IActionResult GetAll([FromQuery] int page, [FromQuery] int nbElement )
+        {
+            IEnumerable<AgendaEvent> result = _agendaEventService.GetMany(page, nbElement);
+
+            List<AgendaEventResponseDto> dtoList = result.Select(e => new AgendaEventResponseDto()
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Desc = e.Desc,
+                Location = e.Location,
+                StartDate = e.StartDate,
+                EndDate = e.EndDate,
+                Category = e.Category?.Name
+            }).ToList();
+
+            return Ok(dtoList);
+        }
+
+        [HttpGet("date/{startDate}")]
+        public IActionResult GetByDate([FromRoute] DateTime startDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet("date/{startDate}/to/{endDate}")]
+        public IActionResult GetByDate([FromRoute] DateTime startDate, [FromRoute] DateTime endDate)
+        {
+            throw new NotImplementedException();
+        }
+        
+
     }
 }
