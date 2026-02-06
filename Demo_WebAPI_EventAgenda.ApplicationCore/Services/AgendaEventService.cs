@@ -98,5 +98,9 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Services
 
             return _agendaEventRepository.GetAll(offset, limit);
         }
+
+        // FAQ Management Methods
+
+      
     }
 }
