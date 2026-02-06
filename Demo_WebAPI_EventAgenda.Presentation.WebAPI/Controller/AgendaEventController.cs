@@ -1,5 +1,6 @@
 ﻿using Demo_WebAPI_EventAgenda.ApplicationCore.Interfaces.Services;
 using Demo_WebAPI_EventAgenda.Domain.Models;
+using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Mappers;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Request;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Response;
 using Microsoft.AspNetCore.Http;
@@ -25,20 +26,13 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
         [ProducesResponseType<AgendaEventResponseDto>(200)]
         public IActionResult GetById([FromRoute]long id)
         {
+            // Recuperation des donnees depuis le service "ApplicationCore"
             AgendaEvent result = _agendaEventService.GetById(id);
 
             // TODO: Don't send the object directly, use a DTO (ResponseDTO) instead
-            AgendaEventResponseDto dto = new AgendaEventResponseDto()
-            {
-                Id = result.Id,
-                Name = result.Name,
-                Desc = result.Desc,
-                Location = result.Location,
-                StartDate = result.StartDate,
-                EndDate = result.EndDate,
-                Category = result.Category.Name
-            };
+            AgendaEventResponseDto dto = result.ToResponseDto(); // Using the extension method ToResponseDto (Mapper)
 
+            // Renvoi la response sous forme d'un DTO
             return Ok(dto);
         }
 
@@ -49,27 +43,11 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
         public IActionResult AddElement(AgendaEventRequestDto data) 
         {
             // Transforme data "RequestDto" vers le type model (Domain)
-            AgendaEvent agendaEvent = new AgendaEvent(
-                data.Name,
-                data.Desc,
-                data.Location,
-                data.StartDate,
-                data.EndDate,
-                new EventCategory(data.Category)
-            );
+            AgendaEvent agendaEvent = data.ToDomain(); //Using the extension method ToDomain (Mapper)
             // Utilisation of the service (ApplicationCore) to add data
             AgendaEvent result = _agendaEventService.Create(agendaEvent);
 
-            AgendaEventResponseDto dto = new AgendaEventResponseDto()
-            {
-                Id = result.Id,
-                Name = result.Name,
-                Desc = result.Desc,
-                Location = result.Location,
-                StartDate = result.StartDate,
-                EndDate = result.EndDate,
-                Category = result.Category.Name
-            };
+            AgendaEventResponseDto dto = result.ToResponseDto(); //Using the extension method ToResponseDto (Mapper)
 
             return CreatedAtAction(             // Creation the response 201 "CREATED" 
                   nameof(GetById),              // → Endpoit to retrieve the data
@@ -84,6 +62,7 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
         public IActionResult Delete(int id)
         {
             _agendaEventService.Delete(id);
@@ -92,34 +71,36 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
         }
 
         [HttpGet]
-        public IActionResult GetAll([FromQuery] int page, [FromQuery] int nbElement )
+        [ProducesResponseType<IEnumerable<AgendaEventListResponseDto>>(200)]
+        public IActionResult GetAll([FromQuery] int page = 1, [FromQuery] int nbElement = 10 ) // You can give a value by default to page and nbElement 
         {
             IEnumerable<AgendaEvent> result = _agendaEventService.GetMany(page, nbElement);
 
-            List<AgendaEventResponseDto> dtoList = result.Select(e => new AgendaEventResponseDto()
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Desc = e.Desc,
-                Location = e.Location,
-                StartDate = e.StartDate,
-                EndDate = e.EndDate,
-                Category = e.Category?.Name
-            }).ToList();
+            IEnumerable<AgendaEventListResponseDto> dtoList = result.Select(item => item.ToListResponseDto()); // Using the extension method ToListResponseDto (Mapper)
 
             return Ok(dtoList);
         }
 
         [HttpGet("date/{startDate}")]
+        [ProducesResponseType<IEnumerable<AgendaEventListResponseDto>>(200)]
         public IActionResult GetByDate([FromRoute] DateTime startDate)
         {
-            throw new NotImplementedException();
+            IEnumerable<AgendaEvent> result = _agendaEventService.GetAllByDate(startDate);
+
+            IEnumerable<AgendaEventListResponseDto> dtoList = result.Select(AgendaEventMapper.ToListResponseDto); // Using the extension method ToListResponseDto (Mapper)
+
+            return Ok(dtoList);
         }
 
         [HttpGet("date/{startDate}/to/{endDate}")]
+        [ProducesResponseType<IEnumerable<AgendaEventListResponseDto>>(200)]
         public IActionResult GetByDate([FromRoute] DateTime startDate, [FromRoute] DateTime endDate)
         {
-            throw new NotImplementedException();
+            IEnumerable<AgendaEvent> result = _agendaEventService.GetAllByDateRange(startDate, endDate);
+
+            IEnumerable<AgendaEventListResponseDto> dtoList = result.Select(AgendaEventMapper.ToListResponseDto); // Using the extension method ToListResponseDto (Mapper)
+
+            return Ok(dtoList); 
         }
         
 

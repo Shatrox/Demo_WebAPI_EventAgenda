@@ -60,7 +60,7 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Services
 
         public IEnumerable<AgendaEvent> GetAllByDateRange(DateTime startDate, DateTime endDate)
         {
-            if (startDate <= endDate)
+            if (startDate > endDate)
             {
                 throw new ArgumentOutOfRangeException("The start date must be smaller than the end date");
             }

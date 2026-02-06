@@ -22,7 +22,7 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
         }
 
         //↓ Implementation du repository
-        public IEnumerable<AgendaEvent> GetAll(int offset, int limit)
+        public IEnumerable<AgendaEvent> GetAll(int offset, int limit) 
         {
             return _DbContext.AgendaEvents
                 .AsNoTracking() // Permet de ne pas tracker les entités (gain de perf en lecture seule)
@@ -95,16 +95,48 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
 
         public IEnumerable<AgendaEvent> GetByDate(DateTime startDate, DateTime? endDate = null)
         {
-            DateTime currentDate = endDate ?? startDate;
-           
-             
-                var result = _DbContext.AgendaEvents
-                    .AsNoTracking()
-                    .Where(ae => ae.StartDate <= currentDate && ae.EndDate >= startDate)
-                    .ToList();
+           // DateTime currentDate = endDate ?? startDate; // Si endDate est null on utilise startDate sinon on utilise endDate
 
-                return result;
-            
+
+            //var result = _DbContext.AgendaEvents
+                    //.AsNoTracking()
+                    //.Where(ae => ae.StartDate <= currentDate && ae.EndDate >= startDate)
+                    //.ToList();
+
+                //return result;
+            // Cleanup les parametres d'entrees 
+            // → La debut est mis à 0h 00m 00s
+            // → La fin est mise 23h 59m 59.9999s
+            DateTime searchStartDate = startDate.Date;
+            DateTime searchEndDate = (endDate ?? startDate).Date.AddDays(1).AddTicks(-1);
+
+            var result = _DbContext.AgendaEvents
+                            .AsNoTracking()
+                            .Where(ae => // Linq to EF => La condition sers executer en SQL
+                                (
+                                    // Si l'evenement commence avant la recherche, on verifie que la fin est apres le debut chercher 
+                                    ae.StartDate <= searchStartDate
+                                    &&
+                                    (ae.EndDate ?? ae.StartDate) >= searchStartDate
+                                )
+                                ||
+                                ( 
+                                    // Si l'evenement termine apres la recherche, on verifie que la debut est avant la fin chercher
+                                    (ae.EndDate ?? ae.StartDate) >= searchEndDate
+                                    &&
+                                    ae.StartDate <= searchEndDate
+                                )
+                                ||
+                                (
+                                    // L'event est compris dans la recherche
+                                    ae.StartDate >= searchStartDate
+                                    &&
+                                    (ae.EndDate ?? ae.StartDate) <= searchEndDate
+                                )
+                            ).ToList();
+            return result;
+
+
         }
     }
 }
