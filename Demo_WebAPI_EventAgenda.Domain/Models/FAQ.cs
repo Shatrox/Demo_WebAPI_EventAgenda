@@ -9,13 +9,12 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
         public int Id { get; private set; }
         public string Question { get; private set; }
         public string Answer { get; private set; }
-        public Admin Admin { get; private set; }
         public bool IsVisible { get; private set; }
 
 
         public FAQ() { }
 
-        public FAQ(string question, string answer, Admin admin, bool isVisible)
+        public FAQ(string question, string answer, bool isVisible)
         {
             if (string.IsNullOrWhiteSpace(question))
             {
@@ -28,7 +27,6 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
 
             Question = question;
             Answer = answer;
-            Admin = admin;
             IsVisible = isVisible;
         }
     }

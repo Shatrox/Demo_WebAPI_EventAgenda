@@ -11,6 +11,7 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Services
     {
         private readonly IFaqRepository _faqRepository;
 
+        // Dependency injection of the repository
         public FaqService(IFaqRepository faqRepository)
         {
             _faqRepository = faqRepository;
@@ -25,7 +26,14 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Services
         public FAQ GetById(long id)
         {
             // Here you can add any business logic or validation before retrieving the FAQ
-            return _faqRepository.GetById(id);
+            FAQ data = _faqRepository.GetById(id);
+
+            if (data is null)
+            {
+                throw new Exception($"FAQ with ID {id} not found.");
+            }
+
+            return data;
         }
 
     }
