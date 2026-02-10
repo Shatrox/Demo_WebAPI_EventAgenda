@@ -9,6 +9,7 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Interfaces.Repositories
     {
         // Create
         Member CreateMember (Member data);
+        Member GetByEmail(string email);
 
         // Allow to get password by email
         string? GetPasswordHashByEmail(string email); 

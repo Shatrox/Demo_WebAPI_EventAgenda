@@ -20,6 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 // DI Configuration
 // - Services (TODO)
 builder.Services.AddScoped<IAgendaEventService, AgendaEventService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IFaqService, FaqService>();
 // - Repositories
 builder.Services.AddScoped<IAgendaEventRepository, AgendaEventRepository>();
