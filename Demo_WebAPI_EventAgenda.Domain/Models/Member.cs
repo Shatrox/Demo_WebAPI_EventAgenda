@@ -9,13 +9,13 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
     {
         public long Id { get; private set; }
         public string? Pseudonyme { get; private set; }
-        public string Email { get; private set; }
+        public string Email { get; private set; } = default!;
         public string? PasswordHash { get; private set; }
         public bool AllowNewsletter { get; private set; }
 
 
 
-        public Member() { }
+        private Member() { }
 
 
         public Member(string pseudonyme, string email, bool allowNewsletter, string? passwordhash = null) 

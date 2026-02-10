@@ -8,16 +8,16 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
     {
         // Proprietes
         public long Id { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; private set; } = default!; // default! = Non nullable, mais pas de valeur par defaut -> necessaire pour EntityFramework
         public string? Desc { get; private set; }
         public string? Location { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
-        public EventCategory Category { get; private set; }
+        public EventCategory Category { get; private set; } = default!;
 
         // Constructeur
 
-        public AgendaEvent(){ }
+        private AgendaEvent(){ }
 
         public AgendaEvent(string name, string? desc, string? location, DateTime startDate, DateTime? endDate, EventCategory category)
         {

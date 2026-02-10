@@ -8,11 +8,11 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
     {
         // Proprietes
         public long Id { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; private set; } = default!; // default! = Non nullable, mais pas de valeur par defaut -> necessaire pour EntityFramework
 
         // Constructeur
         // Vide -> Necessaire pour EntityFrameWork
-        public EventCategory(){ }
+        private EventCategory(){ }
 
         // Parametres -> Avec Validation
         public EventCategory(string name)
