@@ -13,14 +13,16 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Mappers
                     Id = data.Id,
                     Question = data.Question,
                     Answer = data.Answer,
-                    IsVisible = data.IsVisible
+                    IsHidden =  !data.IsVisible,
+                    NbLikes = data.NbLikes,
+
 
                 };
         }
 
         public static FAQ ToDomain(this FaqRequestDto data)
         {
-            return new FAQ(data.Question, data.Answer, data.IsVisible);
+            return new FAQ(data.Question, data.Answer);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
 
         public FAQ CreateFAQ(FAQ data)
         {
-            FAQ faq = _DbContext.FAQs.SingleOrDefault(f => f.Question == data.Question); // This 
+            FAQ faq = _DbContext.FAQs.SingleOrDefault(f => f.Question == data.Question); 
             
             if (faq is not null)
             {
@@ -40,10 +40,40 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
             return element.Entity;
         }
 
+        public IEnumerable<FAQ> Get(bool includesHidden, IEnumerable<string> terms)
+        {
+            IQueryable<FAQ> result = _DbContext.FAQs;
+
+            if (!includesHidden)
+            {
+                result = result.Where(f => f.IsVisible);
+            }
+
+            if (terms.Any())
+            {
+                string[] searchTerms = terms.Where(t => !string.IsNullOrWhiteSpace(t))
+                                            .Select(t => t.ToLower())
+                                            .ToArray();
+
+                result = result.Where(f =>
+                    searchTerms.Any(st => f.Question.ToLower().IndexOf(st) > 0)
+                );
+            }
+
+            return result.ToList();
+        }
+
         public FAQ? GetById(long id) // This method retrieves a FAQ by its ID, including the related Question and Answer entities.
         {
             return _DbContext.FAQs
                 .SingleOrDefault(f => f.Id == id);
+        }
+
+        public FAQ UpdateFAQ(FAQ data)
+        {
+            EntityEntry<FAQ> result = _DbContext.Update(data);
+            _DbContext.SaveChanges();
+            return result.Entity;
         }
     }
 }

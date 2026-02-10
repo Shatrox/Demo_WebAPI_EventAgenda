@@ -27,11 +27,13 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Configs
             builder.Property(f=> f.Question)
                 .HasColumnName("Question")
                 .IsRequired()
+                .IsUnicode()
                 .HasMaxLength(500);
 
             builder.Property(f => f.Answer)
                 .HasColumnName("Answer")
                 .IsRequired()
+                .IsUnicode()
                 .HasMaxLength(2000);
 
             builder.Property(f => f.IsVisible)

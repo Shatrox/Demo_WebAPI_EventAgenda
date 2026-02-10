@@ -8,8 +8,10 @@ namespace Demo_WebAPI_EventAgenda.ApplicationCore.Interfaces.Repositories
     public interface IFaqRepository
     {
         // CRUD Operations - Create, Read, ?Update, ?Delete
-         FAQ GetById(long id); // Read
-         FAQ CreateFAQ(FAQ data); // This creates a new FAQ entry 
+        IEnumerable<FAQ> Get(bool includesHidden, IEnumerable<string> terms); 
+        FAQ? GetById(long id); // Read
+        FAQ CreateFAQ(FAQ data); // This creates a new FAQ entry 
+        FAQ UpdateFAQ(FAQ data);
         
     }
 }

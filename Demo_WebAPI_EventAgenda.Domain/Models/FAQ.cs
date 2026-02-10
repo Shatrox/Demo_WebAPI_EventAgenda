@@ -10,11 +10,12 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
         public string Question { get; private set; }
         public string Answer { get; private set; }
         public bool IsVisible { get; private set; }
+        public int NbLikes { get; private set; }
 
 
         public FAQ() { }
 
-        public FAQ(string question, string answer, bool isVisible)
+        public FAQ(string question, string answer, bool isVisible = true)
         {
             if (string.IsNullOrWhiteSpace(question))
             {
@@ -28,6 +29,19 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
             Question = question;
             Answer = answer;
             IsVisible = isVisible;
+            NbLikes = 0;
+        }
+
+        public FAQ ChangeVisibility(bool visible)
+        {
+            IsVisible = visible;
+            return this;
+        }
+
+        public FAQ IncrLike()
+        {
+            NbLikes++;
+            return this;
         }
     }
 }

@@ -32,6 +32,15 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
 
         }
 
+
+        [HttpGet("search")]
+        public IActionResult GetSearch([FromQuery] string[] terms)
+        {
+            return Ok(_faqService.GetBySearch(terms).Select(FaqMapper.ToResponseDto));
+        }
+
+
+
         [HttpPost]
         public IActionResult AddElement(FaqRequestDto data)
         { 
@@ -46,9 +55,28 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
             );
         }
 
-        
-        
-        
+        [HttpPatch("{id}/show")]
+        public IActionResult ShowElement(long id)
+        {
+            _faqService.UpdateVisibility(id, true);
+            return Accepted();
+        }
+
+        [HttpPatch("{id}/hide")]
+        public IActionResult HideElement(long id)
+        {
+            _faqService.UpdateVisibility(id, false);
+            return Accepted();
+        }
+
+        [HttpPatch("{id}/like")]
+        public IActionResult LikeElement(long id)
+        {
+            _faqService.AddLike(id);
+            return Accepted();
+        }
+
+
 
 
 

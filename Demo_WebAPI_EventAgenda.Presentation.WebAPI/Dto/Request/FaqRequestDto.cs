@@ -7,11 +7,14 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Request
         // Data Notation
 
         [Required]
-        public required long Id { get; set; }
-        [Required]          
+        [MinLength(3)]
+        [MaxLength(255)]
         public required string Question { get; set; }
+
         [Required]
+        [MinLength(3)]
+        [MaxLength(255)]
         public required string Answer { get; set; }
-        public required bool IsVisible { get; set; }
+        
     }
 }
