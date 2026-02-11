@@ -58,7 +58,7 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
             return Ok(new
             {
                 Message = "Bravo, vous avez mit des credentials valides!",
-                Token = member.Id
+                Token = token
 
             });
         
