@@ -41,7 +41,8 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Token
             ];
 
             // Creation of Signing Credentials
-            byte[] key = Encoding.UTF8.GetBytes(_config["Token:Key"]!);
+            string secret = _config["Token:Key"] ?? throw new Exception("Clef du token non défini dans l'env !");
+            byte[] key = Encoding.UTF8.GetBytes(secret);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key); 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
 

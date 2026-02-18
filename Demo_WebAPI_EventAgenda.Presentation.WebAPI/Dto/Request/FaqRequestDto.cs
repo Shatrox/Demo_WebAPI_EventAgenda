@@ -17,4 +17,9 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Request
         public required string Answer { get; set; }
         
     }
+
+    public class FaqRequestPatchDto
+    {
+        public required bool? Visibility { get; set; }
+    }
 }

@@ -55,21 +55,19 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
             );
         }
 
-        [HttpPatch("{id}/show")]
-        public IActionResult ShowElement(long id)
+        
+
+        [HttpPatch("{id}")]
+        public IActionResult HideElement([FromRoute] long id, [FromQuery] FaqRequestPatchDto dto)
         {
-            _faqService.UpdateVisibility(id, true);
+            if (dto.Visibility is not null)
+            {
+                _faqService.UpdateVisibility(id, (bool)dto.Visibility);
+            }
             return Accepted();
         }
 
-        [HttpPatch("{id}/hide")]
-        public IActionResult HideElement(long id)
-        {
-            _faqService.UpdateVisibility(id, false);
-            return Accepted();
-        }
-
-        [HttpPatch("{id}/like")]
+        [HttpPost("{id}/like")]
         public IActionResult LikeElement(long id)
         {
             _faqService.AddLike(id);
