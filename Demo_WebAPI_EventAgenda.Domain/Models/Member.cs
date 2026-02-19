@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Demo_WebAPI_EventAgenda.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
@@ -13,6 +14,8 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
         public string? Pseudonyme { get; private set; }
         public bool AllowNewsletter { get; private set; }
         public string? PasswordHash { get; private set; }
+        public MemberRole Role { get; private set; } 
+
 
 
 
@@ -39,9 +42,10 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
             Pseudonyme = pseudonyme;
             AllowNewsletter = allowNewsletter;
             PasswordHash = passwordhash;
+            Role = MemberRole.Peon  ;
         }
 
-        public Member(long id, string email, string? pseudonyme, bool allowNewsletter, string?passwordhash = null)
+        public Member(long id, string email, string? pseudonyme, bool allowNewsletter, MemberRole role, string?passwordhash = null)
             :this(email, pseudonyme, allowNewsletter, passwordhash)
         {
             Id = id;

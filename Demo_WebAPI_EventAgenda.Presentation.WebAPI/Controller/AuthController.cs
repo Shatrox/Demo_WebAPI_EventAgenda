@@ -1,5 +1,6 @@
 ﻿using Demo_WebAPI_EventAgenda.ApplicationCore.Interfaces.Services;
 using Demo_WebAPI_EventAgenda.ApplicationCore.Services;
+using Demo_WebAPI_EventAgenda.Domain.Enums;
 using Demo_WebAPI_EventAgenda.Domain.Models;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Request;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Token;
@@ -51,7 +52,7 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
             string token = _tokenTool.Generate( new TokenTool.Data()
             {
                 MemberId = member.Id,
-                Role = "Member"
+                Role = member.Role.ToString() // Simple role assignment based on email, for demonstration purposes only, it will be changed later
             });
 
 

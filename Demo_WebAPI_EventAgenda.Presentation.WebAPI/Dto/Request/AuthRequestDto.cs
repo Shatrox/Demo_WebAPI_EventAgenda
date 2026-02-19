@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Demo_WebAPI_EventAgenda.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Request
 {
@@ -21,7 +22,7 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Request
         [RegularExpression("(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).*")]
         public required string Password { get; set; }
 
-   
+
     }
 
     public class AuthLoginRequestDto

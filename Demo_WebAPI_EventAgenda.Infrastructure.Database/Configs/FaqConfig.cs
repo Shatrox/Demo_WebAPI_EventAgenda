@@ -40,6 +40,11 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Configs
                 .HasColumnName("IsVisible")
                 .IsRequired();
 
+            builder.Property(f=> f.NbLikes)
+                .HasColumnName("NbLikes")
+                .IsRequired()
+                .HasDefaultValue(0);
+
             // Indexes
 
             // Allows fast retrieval of FAQs based on specific keywords in the question, improving search performance.

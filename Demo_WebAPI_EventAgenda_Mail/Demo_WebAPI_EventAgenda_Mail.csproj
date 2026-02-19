@@ -8,13 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.15.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Demo_WebAPI_EventAgenda.ApplicationCore\Demo_WebAPI_EventAgenda.ApplicationCore.csproj" />
-    <ProjectReference Include="..\Demo_WebAPI_EventAgenda.Domain\Demo_WebAPI_EventAgenda.Domain.csproj" />
   </ItemGroup>
 
 </Project>

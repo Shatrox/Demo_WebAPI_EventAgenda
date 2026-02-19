@@ -3,6 +3,7 @@ using Demo_WebAPI_EventAgenda.Domain.Models;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Mappers;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Request;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,6 +41,7 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
 
         [HttpPost]
         [ProducesResponseType<AgendaEventResponseDto>(201)]
+        [Authorize]
         public IActionResult AddElement(AgendaEventRequestDto data) 
         {
             // Transforme data "RequestDto" vers le type model (Domain)
@@ -63,6 +65,7 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
 
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
+        [Authorize(Roles = "Admin")] // Only users with the "Admin" role can access this endpoint
         public IActionResult Delete(int id)
         {
             _agendaEventService.Delete(id);

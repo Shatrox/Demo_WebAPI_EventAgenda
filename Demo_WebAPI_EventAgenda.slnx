@@ -14,4 +14,5 @@
   <Folder Name="/Éléments de solution/">
     <File Path="readme.md" />
   </Folder>
+  <Project Path="Demo_WebAPI_EventAgenda_Mail/Demo_WebAPI_EventAgenda_Mail.csproj" Id="c143d011-d318-4604-b89c-ce6aad215b8c" />
 </Solution>

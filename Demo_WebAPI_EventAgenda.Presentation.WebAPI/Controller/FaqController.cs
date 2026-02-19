@@ -3,12 +3,14 @@ using Demo_WebAPI_EventAgenda.Domain.Models;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Mappers;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Request;
 using Demo_WebAPI_EventAgenda.Presentation.WebAPI.Dto.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] 
     public class FaqController : ControllerBase 
     {
         private readonly IFaqService _faqService;
@@ -32,6 +34,13 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
 
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetAll()
+        {
+            return Ok(_faqService.GetAll().Select(FaqMapper.ToResponseDto));
+        }
+
 
         [HttpGet("search")]
         public IActionResult GetSearch([FromQuery] string[] terms)
@@ -42,6 +51,7 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddElement(FaqRequestDto data)
         { 
             FAQ faq = data.ToDomain();
@@ -58,7 +68,8 @@ namespace Demo_WebAPI_EventAgenda.Presentation.WebAPI.Controller
         
 
         [HttpPatch("{id}")]
-        public IActionResult HideElement([FromRoute] long id, [FromQuery] FaqRequestPatchDto dto)
+        [Authorize(Roles = "Admin")]
+        public IActionResult UpdateElement([FromRoute] long id, [FromQuery] FaqRequestPatchDto dto)
         {
             if (dto.Visibility is not null)
             {

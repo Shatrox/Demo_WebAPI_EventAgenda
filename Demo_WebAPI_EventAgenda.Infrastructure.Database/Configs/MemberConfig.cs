@@ -1,4 +1,5 @@
-﻿using Demo_WebAPI_EventAgenda.Domain.Models;
+﻿using Demo_WebAPI_EventAgenda.Domain.Enums;
+using Demo_WebAPI_EventAgenda.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -42,6 +43,15 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Configs
 
             builder.Property(m => m.AllowNewsletter)
                 .HasColumnName("AllowNewsletter")
+                .IsRequired();
+
+            builder.Property(m => m.Role)
+                .HasConversion<string>() // Store the enum as a string in the database
+                .HasDefaultValue(MemberRole.Peon) // Set the default value to "Peon" for the members already in the database
+                .HasSentinel(0) // Set the sentinel value to 0, which is not defined in the enum, to prevent invalid data
+                .HasMaxLength(20)
+                .HasColumnName("Role")
+                .IsUnicode(false)
                 .IsRequired();
 
             // Indexes

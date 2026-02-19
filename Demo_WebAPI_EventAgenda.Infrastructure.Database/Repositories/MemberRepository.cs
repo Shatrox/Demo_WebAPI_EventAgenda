@@ -26,7 +26,7 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
 
             // Return the created element
             var result = element.Entity;
-            return new Member(result.Id, result.Email, result.Pseudonyme, result.AllowNewsletter);
+            return new Member(result.Id, result.Email, result.Pseudonyme, result.AllowNewsletter, result.Role);
             
         }
 
@@ -34,7 +34,7 @@ namespace Demo_WebAPI_EventAgenda.Infrastructure.Database.Repositories
         {
             var result = _DbContext.Members
                 .Single(m => m.Email == email); // this line translates word by word in: "Get the single member m where m.Email is equal to the email parameter"
-            return new Member(result.Id, result.Email, result.Pseudonyme, result.AllowNewsletter);
+            return new Member(result.Id, result.Email, result.Pseudonyme, result.AllowNewsletter, result.Role);
         }
 
         public string? GetPasswordHashByEmail(string email)

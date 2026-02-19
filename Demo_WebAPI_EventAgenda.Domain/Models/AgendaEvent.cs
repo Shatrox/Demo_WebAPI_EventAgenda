@@ -15,6 +15,7 @@ namespace Demo_WebAPI_EventAgenda.Domain.Models
         public DateTime? EndDate { get; private set; }
         public EventCategory Category { get; private set; } = default!;
 
+
         // Constructeur
 
         private AgendaEvent(){ }

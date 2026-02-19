@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Soenneker.Hashing.Argon2" Version="4.0.692" />
+    <PackageReference Include="Soenneker.Hashing.Argon2" Version="4.0.694" />
   </ItemGroup>
 
   <ItemGroup>

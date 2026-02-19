@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -9,19 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.2">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.12.34" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.12.44" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Demo_WebAPI_EventAgenda.ApplicationCore\Demo_WebAPI_EventAgenda.ApplicationCore.csproj" />
     <ProjectReference Include="..\Demo_WebAPI_EventAgenda.Domain\Demo_WebAPI_EventAgenda.Domain.csproj" />
     <ProjectReference Include="..\Demo_WebAPI_EventAgenda.Infrastructure.Database\Demo_WebAPI_EventAgenda.Infrastructure.Database.csproj" />
+    <ProjectReference Include="..\Demo_WebAPI_EventAgenda_Mail\Demo_WebAPI_EventAgenda_Mail.csproj" />
   </ItemGroup>
 
 </Project>
